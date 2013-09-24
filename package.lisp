@@ -1,4 +1,4 @@
 ;;;; package.lisp
 
 (defpackage #:grafico
-  (:use #:cl #:alexandria #:cl-dot))
+  (:use #:cl #:alexandria #:s-dot))
