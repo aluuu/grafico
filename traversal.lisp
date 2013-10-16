@@ -48,17 +48,19 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Depth-first search
+;;   supports :depth keyword argument, that turns DFS to DLS
 
-(defmethod dfs ((graph graph) start &key (goal nil) (queue nil) (visited nil))
-  (let ((queue (when (not queue) (make-instance 'deque :items `(,start))))
-        (visited visited))
-    (loop while (> (length queue) 0)
-       do (let ((v (pop-left queue)))
-            (when (not (member v visited))
-              (setf visited (cons v visited)))
-            (if (not (equal goal v))
-                (loop for e in (neighbors graph v)
-                   do (when (not (member e visited))
-                        (append-left queue e))))
-            (dfs graph v :goal goal :queue queue :visited visited)))
+(defmethod dfs ((graph graph) start &key (depth nil) (goal nil) (visited nil))
+  (let ((visited (cons start visited)))
+    (when (or (null depth) (> depth 1))
+        (if (not (equal goal start))
+            (loop for e in (neighbors graph start)
+               do (when (not (member e visited))
+                    (setf visited
+                          (dfs graph e
+                               :depth (when depth (- depth 1))
+                               :goal goal :visited visited))))))
     (reverse visited)))
+
+(defmethod dls ((graph graph) start depth &key (goal nil) (visited nil))
+  (dfs graph start :depth depth :goal doal :visited visited))
