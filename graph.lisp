@@ -2,32 +2,8 @@
 
 (in-package #:grafico)
 
-;;; "grafico" goes here. Hacks and glory await!
-
-(defclass deque (sequence standard-object)
-  ((data :accessor items :initform '() :initarg :items)))
-
-(defmethod append-right ((d deque) item)
-  (setf (items d) (append (items d) `(,item))))
-
-(defmethod append-left ((d deque) item)
-  (setf (items d) (append `(,item) (items d))))
-
-(defmethod pop-right ((d deque))
-  (let ((result (lastcar (items d))))
-    (setf (items d) (butlast (items d)))
-    result))
-
-(defmethod pop-left ((d deque))
-  (let ((result (first (items d))))
-    (setf (items d) (cdr (items d)))
-    result))
-
-(defmethod item-to-pop ((d deque))
-  (first (items d)))
-
-(defmethod sequence:length ((d deque))
-  (length (items d)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Graph
 
 (defclass graph ()
   ((nodes :initform (make-hash-table :test 'equal) :accessor graph-nodes)
@@ -79,6 +55,9 @@
         (remove (cdr edge) (gethash (car edge) (graph-adj graph)))
         (gethash (cdr edge) (graph-adj graph))
         (remove (car edge) (gethash (cdr edge) (graph-adj graph)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; DiGraph
 
 (defclass digraph (graph) ())
 
