@@ -1,6 +1,5 @@
 (in-package #:grafico)
 
-
 (defun format-2d-hash (h &key (stream t))
   (let* ((rows (alexandria:hash-table-keys h))
          (columns (alexandria:hash-table-keys (gethash (first rows) h))))

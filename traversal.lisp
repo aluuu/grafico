@@ -50,7 +50,8 @@
 ;; Depth-first search
 ;;   supports :depth keyword argument, that turns DFS to DLS
 
-(defmethod dfs ((graph graph) start &key (depth nil) (goal nil) (visited nil))
+(defmethod dfs ((graph graph) start
+                &key (depth nil) (goal nil) (visited nil))
   (let ((visited (cons start visited)))
     (when (or (null depth) (> depth 1))
         (if (not (equal goal start))
@@ -62,5 +63,6 @@
                                :goal goal :visited visited))))))
     (reverse visited)))
 
-(defmethod dls ((graph graph) start depth &key (goal nil) (visited nil))
+(defmethod dls ((graph graph) start depth
+                &key (goal nil) (visited nil))
   (dfs graph start :depth depth :goal goal :visited visited))
