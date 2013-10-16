@@ -63,4 +63,4 @@
     (reverse visited)))
 
 (defmethod dls ((graph graph) start depth &key (goal nil) (visited nil))
-  (dfs graph start :depth depth :goal doal :visited visited))
+  (dfs graph start :depth depth :goal goal :visited visited))
